@@ -20,7 +20,6 @@ senha_login.send_keys("agespisa064@")
 select_orgao = navegador.find_element("id","selOrgao")
 select_orgao.click()
 
-# aguarda o <select> ficar presente/ativável e seleciona
 wait = WebDriverWait(navegador, 5)
 select_orgao_el = wait.until(EC.element_to_be_clickable((By.ID, "selOrgao")))
 select = Select(select_orgao_el)
@@ -30,7 +29,6 @@ select.select_by_visible_text("AGESPISA-PI")
 entrar = navegador.find_element("id","Acessar")
 entrar.click()
 
-# XPath casa o <a> que contém um <span> com o texto exato
 link_iniciar = wait.until(
     EC.element_to_be_clickable(
         (By.XPATH, '//ul[@id="infraMenu"]//a[.//span[normalize-space()="Iniciar Processo"]]')
@@ -38,7 +36,6 @@ link_iniciar = wait.until(
 )
 link_iniciar.click()
 
-# Selecionar o tipo de processo (texto do link conforme a página)
 tipo_processo = wait.until(
     EC.element_to_be_clickable(
         (By.XPATH, '//a[normalize-space()="Documento Oficial: Ofício, Memorando, Portaria, Edital, Instrução Normativa e outros"]')
@@ -52,7 +49,6 @@ label_restrito.click()
 hipotese_legal = navegador.find_element("id","selHipoteseLegal")
 hipotese_legal.click()
 
-# Hipótese Legal: selecionar no <select id="selHipoteseLegal">
 sel_hipotese = wait.until(EC.element_to_be_clickable((By.ID, "selHipoteseLegal")))
 select_hipotese = Select(sel_hipotese)
 
@@ -86,6 +82,17 @@ frame_proc = wait.until(
         (By.CSS_SELECTOR, "iframe[src*='acao=arvore_visualizar']")   
     )
 )  
+
+wait.until(EC.presence_of_element_located((By.ID, "divInfraAreaTelaD")))  
+
+btn_incluir_doc = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//div[@id='divArvoreAcoes']//a[.//img[@alt='Incluir Documento']]")
+    )
+)
+navegador.execute_script("arguments.scrollIntoView({block:'center'});", btn_incluir_doc)
+btn_incluir_doc.click()  
+
 
 time.sleep(5)
 
